@@ -1,28 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Req } from '@nestjs/common';
 import { BooksService } from './books.service';
 import { CreateBookDto } from './dto/create-book.dto';
+import { JwtAuthGuard } from 'src/auth/jwtAuth.guard';
+import { create } from 'domain';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('books')
 export class BooksController {
-  constructor(private readonly booksService: BooksService) {}
+    constructor(private readonly booksService: BooksService) { }
 
-  @Post()
-  create(@Body() createBookDto: CreateBookDto) {
-    return this.booksService.create(createBookDto);
-  }
+    @Post()
+    @UseGuards(JwtAuthGuard)
+    async create(@Body() createBookDto: CreateBookDto, @Req() req) {
+        const { owner, ...book} = await this.booksService.create(createBookDto, req.user);
 
-  @Get()
-  findAll() {
-    return this.booksService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.booksService.findOne(+id);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.booksService.remove(+id);
-  }
+        return book;
+    }
 }

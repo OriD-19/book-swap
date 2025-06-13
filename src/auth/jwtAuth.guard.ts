@@ -10,7 +10,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     //para extraer los datos del usuario a partir del JWT
     handleRequest(err, user) {
         if (err || !user) {
-            throw err || new UnauthorizedException();
+            throw err || new UnauthorizedException('Something is not working here...');
         }
         return user;
     }

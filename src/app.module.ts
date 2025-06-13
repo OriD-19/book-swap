@@ -7,6 +7,7 @@ import { User } from './users/entities/user.entity';
 import { BooksModule } from './books/books.module';
 import { Book } from './books/entities/book.entity';
 import { AuthModule } from './auth/auth.module';
+import { PublicController } from './public.controller';
 
 @Module({
     imports: [
@@ -24,7 +25,7 @@ import { AuthModule } from './auth/auth.module';
         BooksModule,
         AuthModule,
     ],
-    controllers: [AppController],
+    controllers: [AppController, PublicController],
     providers: [AppService],
 })
 export class AppModule { }

@@ -1,9 +1,13 @@
-import { IsString, Max, Min } from "class-validator";
+import { IsString, Max, MaxLength, Min, MinLength } from "class-validator";
 
 export class CreateBookDto {
+
     @IsString()
-    @Min(5)
-    @Max(200)
+    author: string;
+
+    @IsString()
+    @MinLength(5)
+    @MaxLength(200)
     title: string;
 
     @IsString()
